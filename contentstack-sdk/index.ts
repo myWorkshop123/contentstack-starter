@@ -1,5 +1,6 @@
 import * as Utils from "@contentstack/utils";
-import ContentstackLivePreview from "@contentstack/live-preview-utils";
+import ContentstackLivePreview, { IStackSdk } from "@contentstack/live-preview-utils";
+
 import getConfig from "next/config";
 import {
   customHostUrl,
@@ -39,12 +40,17 @@ if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
 
 // Setting LP if enabled
 ContentstackLivePreview.init({
+  enable:true, 
+  mode:"builder",
   //@ts-ignore
   stackSdk: Stack,
   clientUrlParams:{
     host: envConfig.CONTENTSTACK_APP_HOST,
   },
-  ssr:false,
+  stackDetails: {
+    apiKey: envConfig.CONTENTSTACK_API_KEY,
+  },
+  ssr:false
 })?.catch((err) => console.error(err));
 
 export const { onEntryChange } = ContentstackLivePreview;
